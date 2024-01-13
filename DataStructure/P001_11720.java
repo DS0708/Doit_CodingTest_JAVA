@@ -3,7 +3,7 @@ package DataStructure;
 import java.io.*;
 import java.util.Scanner;
 
-public class P001 {
+public class P001_11720 {
     public static void main(String[] args) throws IOException {
         //my code
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
