@@ -25,6 +25,7 @@ public class P006_2018 {
                 end_index ++;
                 sum += end_index;
             }
+            // 분기문 하나때문에 시간초과됨에 주의하자 -> 분기문을 하나라도 더 줄여야함
         }
         System.out.println(count);
     }
