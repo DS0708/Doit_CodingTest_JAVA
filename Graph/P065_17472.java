@@ -12,6 +12,7 @@ public class P065_17472 {
   static int[][] map;
   static ArrayList<int[]> mList;
   static ArrayList<ArrayList<int[]>> sumList;
+  static PriorityQueue<Edge_17472> pq;
   public static void main(String[] args) throws Exception{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
@@ -39,13 +40,45 @@ public class P065_17472 {
       }
     }
     //Edge 추가
+    pq = new PriorityQueue<>();
+    for(ArrayList<int[]> sum : sumList){
+      for(int[] xy : sum){
+        int r = xy[0];
+        int c = xy[1];
+        int nowSNum = map[r][c];
+        for(int d=0; d<4; d++){
+          int tempR = dr[d];
+          int tempC = dc[d];
+          int len = 0;
+          while(0<=r+tempR && r+tempR<N && 0<=c+tempC && c+tempC<M){
+            int target = map[r+tempR][c+tempC];
+            if (target == 0){
+              len++;
+            }else{
+              if (target != nowSNum && len > 1)
+                pq.add(new Edge_17472(nowSNum,target,len));
+              break;
+            }
 
+            if (tempR > 0) tempR++;
+            else if(tempR < 0) tempR--;
+            else if(tempC > 0) tempC++;
+            else if(tempC < 0) tempC--;
+          }
+        }
+      }
+    }
     //Union Find
 
     //output
     for(int[] i : map){
       for(int j : i) System.out.print(j+" ");
       System.out.println();
+    }
+    int si = pq.size();
+    for(int i=0; i<si; i++){
+      Edge_17472 edge = pq.poll();
+      System.out.println(edge.e + " " + edge.s + " " + edge.v);
     }
   }
   private static void BFS(int i, int j) { // BFS를 통하여 연결된 섬을 찾아줍니다.
@@ -82,5 +115,21 @@ public class P065_17472 {
         }
       }
     }
+  }
+}
+
+class Edge_17472 implements Comparable<Edge_17472>{
+  int s;
+  int e;
+  int v;
+  Edge_17472(int s, int e, int v){
+    this.s = s;
+    this.e = e;
+    this.v = v;
+  }
+
+  @Override
+  public int compareTo(Edge_17472 o) {
+    return this.v - o.v;
   }
 }
