@@ -31,3 +31,19 @@
 
 > 위의 인덱스 연산 방식은 향후 세그먼트 트리(segment)나 LCA(lowest common ancestor)
 > 알고리즘에서도 기본이 되는 연산이므로 꼭 숙지해야함
+
+
+### 이진 트리의 순회
+- 전위 순회(preorder traverse) : 뿌리 -> 왼쪽 자식 -> 오른쪽 자식, DFS의 한 형태
+- 중위 순회(inorder traverse) : 왼쪽 자식 -> 뿌리 -> 오른쪽 자식
+- 후위 순회(postorder traverse) : 왼쪽 자식 -> 오른쪽 자식 -> 뿌리
+- 층별 순회(level order traverse) : 위 쪽 node들 부터 아래방향으로 차례로 방문, BFS의 한 형태
+
+- 예제
+
+<img src="./image/treeOrder.png">
+
+- preorder : 0 1 3 7 8 4 9 10 2 5 11 6
+- inorder : 7 3 8 1 9 4 10 0 11 5 2 6
+- postorder : 7 8 3 9 10 4 1 11 5 6 2 0
+- level order : 0 1 2 3 4 5 6 7 8 9 10 11
