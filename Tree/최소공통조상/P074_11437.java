@@ -1,4 +1,4 @@
-package Tree.세그먼트트리;
+package Tree.최소공통조상;
 
 import java.util.*;
 import java.io.*;
