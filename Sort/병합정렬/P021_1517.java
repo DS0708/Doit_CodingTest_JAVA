@@ -45,6 +45,8 @@ public class P021_1517 {
         while(index1 <= mid && index2 <= end){
             if (temp[index1] > temp[index2]){
                 A[current] = temp[index2];
+                //첫번쨰는 원래 index보다 왼쪽으로 이동할 수 없으므로
+                //index2에 있는 것만 더해주면 된다.
                 result += index2 - current;
                 current++;
                 index2++;
