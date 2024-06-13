@@ -1,60 +1,59 @@
 package Search.dfs;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class P023_11724 {
-    static Collection<Integer>[] graph;
-    static Boolean[] visited;
-    static int count;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+  static ArrayList<Integer>[] graphList;
+  static boolean[] visited;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int V = Integer.parseInt(st.nextToken());
-        int E = Integer.parseInt(st.nextToken());
+    int V = Integer.parseInt(st.nextToken());
+    int E = Integer.parseInt(st.nextToken());
 
-        visited = new Boolean[V+1];
-        graph = new ArrayList[V+1];
-        count = 0;
+    graphList = new ArrayList[V+1];
+    visited = new boolean[V+1];
 
-        //Arraylist 배열 초기화 및 visited 초기화
-        for (int i=1; i<=V; i++){
-            graph[i] = new ArrayList<>();
-            visited[i] = false;
-        }
+    int result = 0;
 
-        //그래프에 에지 삽입
-        for (int i=1; i<=E; i++){
-            st = new StringTokenizer(br.readLine());
-            int v1 = Integer.parseInt(st.nextToken());
-            int v2 = Integer.parseInt(st.nextToken());
-            graph[v1].add(v2);
-            graph[v2].add(v1);
-        }
-
-        for (int i=1; i<=V; i++){
-            if(visited[i] == false){
-                count++;
-                DFS(i);
-            }
-        }
-
-        System.out.println(count);
+    for(int i=1; i<=V; i++){
+      graphList[i] = new ArrayList<>();
     }
 
-    public static void DFS(int v){
-        if (visited[v]) return;
-
-        visited[v] = true;
-        for (int i : graph[v]){
-            if(visited[i] == false)
-            DFS(i);
-        }
+    for(int i=0; i<E; i++){
+      st = new StringTokenizer(br.readLine());
+      int e1 = Integer.parseInt(st.nextToken());
+      int e2 = Integer.parseInt(st.nextToken());
+      graphList[e1].add(e2);
+      graphList[e2].add(e1);
     }
+
+    while(true){
+      int index = -1;
+      for(int i=1; i<=V; i++){
+        if(!visited[i]) index = i;
+      }
+
+      if(index==-1){
+        break;
+      }else{
+        DFS(index);
+        result++;
+      }
+    }
+
+    System.out.println(result);
+  }
+
+  static void DFS(int node){
+    visited[node] = true;
+
+    for(int newNode : graphList[node]){
+      if(!visited[newNode])
+        DFS(newNode);
+    }
+  }
+
 }
