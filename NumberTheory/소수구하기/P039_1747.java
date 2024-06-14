@@ -3,37 +3,51 @@ package NumberTheory.소수구하기;
 import java.util.Scanner;
 
 public class P039_1747 {
-    static int max_num = (int)Math.pow(10,7);
-    public static void main(String[] args) {
-        int N = new Scanner(System.in).nextInt();
-        int prime[] = new int[max_num+1];
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    int n = scan.nextInt();
+    boolean[] isNotPrime = new boolean[10000001];
 
-        prime[2] = 2;
-        for (int i=3; i<prime.length; i+=2) prime[i] = i;
-        for (int i=3; i<=Math.sqrt(prime.length); i+=2){
-            if (prime[i] == 0 ) continue;
-            for (int j=i+i; j<prime.length; j+=i) prime[j] = 0;
+    //소수 구하기
+    isNotPrime[1] = true;
+    for(int i=2; i<=Math.sqrt(10000000); i++){
+      if(!isNotPrime[i]){
+        int num = i+i;
+        while(num <= 10000000){
+          isNotPrime[num] = true;
+          num +=i;
         }
-
-        for (int i=N; i<prime.length; i++){
-            if (prime[i] != 0 && isPalindrome(i)){
-                System.out.println(i);
-                break;
-            }
-        }
+      }
     }
 
-    static boolean isPalindrome(int target){
-        String str = String.valueOf(target);
-        int start = 0;
-        int end = str.length()-1;
-        while (start < end){
-            if (str.charAt(start)!=str.charAt(end)){
-                return false;
-            }
-            start ++;
-            end --;
+    while(true){
+      if(!isNotPrime[n]){
+        if(isPalindrome(n)){
+          System.out.println(n);
+          break;
         }
-        return true;
+      }
+      n++;
     }
+  }
+
+  static boolean isPalindrome(int num){
+    String str = String.valueOf(num);
+    char[] charArr = str.toCharArray();
+    int s = 0;
+    int e = charArr.length-1;
+    boolean check = true;
+
+    while(s<=e){
+      if(charArr[s] != charArr[e]){
+        check = false;
+        break;
+      }
+      s++;
+      e--;
+    }
+
+    return check;
+  }
+
 }
