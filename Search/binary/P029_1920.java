@@ -1,58 +1,45 @@
 package Search.binary;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class P029_1920 {
-    static int A[];
-    static int N;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(br.readLine());
-        A = new int[N];
-        int find_arr[];
-        int find;
-        StringTokenizer st = new StringTokenizer(br.readLine());
+  static int[] arr;
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    int N = Integer.parseInt(st.nextToken());
+    arr = new int[N];
+    st = new StringTokenizer(br.readLine());
+    for(int i=0; i<N; i++){
+      arr[i] = Integer.parseInt(st.nextToken());
+    }
+    Arrays.sort(arr);
+    int M = Integer.parseInt(br.readLine());
+    st = new StringTokenizer(br.readLine());
+    for(int i=0; i<M; i++){
+      int answer = Integer.parseInt(st.nextToken());
+      System.out.println(BinarySearch(answer,0,N-1));
+    }
+  }
 
-        for (int i=0; i<N; i++){
-            A[i] = Integer.parseInt(st.nextToken());
-        }
-
-        find = Integer.parseInt(br.readLine());
-        find_arr = new int[find];
-        st = new StringTokenizer(br.readLine());
-
-        for (int i=0; i<find; i++){
-            find_arr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        Arrays.sort(A);
-
-        for (int i=0; i<find; i++){
-            BinarySearch(find_arr[i]);
-        }
+  static int BinarySearch(int n, int s, int e){
+    int result = 0;
+    while(s <= e){
+      int mid = (s+e)/2;
+      if(arr[mid]==n){
+        result = 1;
+        break;
+      }else if(arr[mid] > n){
+        e = mid-1;
+      }else if(arr[mid] < n){
+        s = mid+1;
+      }
     }
 
-    public static void BinarySearch(int key){
-        int start = 0;
-        int end = N-1;
+    return result;
+  }
 
-        while (start <= end) {
-            int mid = (start + end) / 2;
 
-            if (key == A[mid]){
-                System.out.println(1);
-                return;
-            }else if (key > A[mid]){
-                start = mid + 1;
-            }else {
-                end = mid - 1;
-            }
-        }
 
-        System.out.println(0);
-    }
 }
