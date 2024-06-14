@@ -7,20 +7,21 @@ public class P037_1929 {
         Scanner scanner = new Scanner(System.in);
         int M = scanner.nextInt();
         int N = scanner.nextInt();
-        int A[] = new int[N+1];
+        boolean[] arr = new boolean[N+1];
+        arr[1] = true; //1을 꼭 제외해줘야함 !!
 
-        for (int i=2; i<=N; i++){
-            A[i] = i;
+        for(int i=2; i<=Math.sqrt(N); i++){
+          if(!arr[i]){
+            int num = i+i;
+            while(num <= N){
+              arr[num] = true;
+              num += i;
+            }
+          }
         }
 
-        for (int i=2; i<=Math.sqrt(N); i++){
-            if (A[i]==0) continue;
-
-            for (int j= i+i; j<=N; j+=i)    A[j] = 0;
-        }
-
-        for (int i=M; i<=N; i++){
-            if (A[i]!=0) System.out.println(A[i]);
+        for(int i=M; i<=N; i++){
+          if(!arr[i]) System.out.println(i);
         }
     }
 }
