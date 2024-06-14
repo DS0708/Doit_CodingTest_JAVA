@@ -1,59 +1,54 @@
 package Search.bfs;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+
+import java.io.*;
+import java.util.*;
 
 public class P027_2178 {
-    static int[] dx = {0,1,0,-1};
-    static int[] dy = {1,0,-1,0};
-    static int map[][] ;
-    static boolean visited[][];
-    static int N;
-    static int M;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+  static int[] dx = {0,1,0,-1};
+  static int[] dy = {1,0,-1,0};
+  static boolean[][] visited;
+  static int[][] miro;
+  static int n,m;
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    n = scan.nextInt();
+    m = scan.nextInt();
+    miro = new int[n][m];
+    visited = new boolean[n][m];
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        map = new int[N][M];
-        visited = new boolean[N][M];
-
-        for (int i=0; i<N; i++){
-            String str = br.readLine();
-            for(int j=0; j<M; j++){
-                map[i][j] = Integer.parseInt(str.substring(j,j+1));
-            }
-        }
-
-        BFS(0,0);
-
-        System.out.println(map[N-1][M-1]);
+    for(int i=0 ; i<n; i++){
+      String str = scan.next();
+      for(int j=0; j<m; j++){
+        miro[i][j] = str.charAt(j) - '0';
+      }
     }
 
-    public static void BFS(int i, int j){
-        Queue<int []> queue = new LinkedList<>();
-        queue.add(new int[] {i,j});
-        visited[i][j] = true;
+    BFS(0,0);
 
-        while(!queue.isEmpty()){
-            int now[] = queue.poll();
-            for (int k=0; k<4; k++){
-                int x = now[0] + dx[k];
-                int y = now[1] + dy[k];
-                if ( 0<=x&&x<N && 0<=y&&y<M){
-                    if (map[x][y]>0 && visited[x][y]==false){
-                        queue.add(new int[] {x,y});
-                        visited[x][y] = true;
-                        map[x][y] = map[now[0]][now[1]] + 1;
-                    }
-                }
-            }
+    System.out.println(miro[n-1][m-1]);
+  }
+
+  static void BFS(int x, int y){
+    Queue<int[]> queue = new ArrayDeque<>();
+    queue.add(new int[] {x,y});
+    visited[x][y] = true;
+
+    while(!queue.isEmpty()){
+      int[] curNode = queue.poll();
+      for(int i=0; i<4; i++){
+        int newX = curNode[0] + dx[i];
+        int newY = curNode[1] + dy[i];
+        if(0<=newX && newX<n && 0<=newY && newY<m){
+          if(!visited[newX][newY] && miro[newX][newY] != 0){
+            miro[newX][newY] += miro[curNode[0]][curNode[1]];
+            visited[newX][newY] = true;
+            queue.add(new int[] {newX, newY});
+          }
         }
+      }
     }
+
+  }
 }
+
