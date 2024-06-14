@@ -1,24 +1,24 @@
 package Greedy;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class P032_11047 {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        int N = scan.nextInt();
-        int K = scan.nextInt();
-        int A[] = new int[N];
-        int count = 0;
-        for (int i=0; i<N; i++){
-            A[i] = scan.nextInt();
-        }
-
-        for (int i=N-1; i>=0; i--){
-            count += K/A[i];
-            K %= A[i];
-            if (K==0) break;
-        }
-
-        System.out.println(count);
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    int n = scan.nextInt();
+    int k = scan.nextInt();
+    int count = 0;
+    int[] coin = new int[n];
+    for(int i=0; i<n; i++)
+      coin[i] = scan.nextInt();
+    for(int i=n-1; i>=0; i--){
+      if(k >= coin[i]){
+        count += k/coin[i];
+        k %= coin[i];
+      }
+      if(k==0) break;
     }
+
+    System.out.println(count);
+  }
 }
