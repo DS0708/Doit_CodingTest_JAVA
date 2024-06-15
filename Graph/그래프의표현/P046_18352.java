@@ -1,69 +1,59 @@
 package Graph.그래프의표현;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class P046_18352 {
-  static boolean visited[];
-  static Queue<Integer> queue;
-  static ArrayList<Integer> graph[];
-  static int D[];
-  public static void main(String[] args) throws Exception{
+  static ArrayList<Integer>[] graph;
+  static boolean[] visited;
+  static int[] D;
+
+public static void main(String[] args) throws Exception{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
 
-    int N = Integer.parseInt(st.nextToken());
-    int M = Integer.parseInt(st.nextToken());
+    int V = Integer.parseInt(st.nextToken());
+    int E = Integer.parseInt(st.nextToken());
     int K = Integer.parseInt(st.nextToken());
-    int X = Integer.parseInt(st.nextToken());
+    int start = Integer.parseInt(st.nextToken());
+
+    graph = new ArrayList[V+1];
+    for(int i=0; i<=V; i++) graph[i] = new ArrayList<>();
+    visited = new boolean[V+1];
+    D = new int[V+1];
+
+    for(int i=0; i<E; i++){
+      st = new StringTokenizer(br.readLine());
+      int e1 = Integer.parseInt(st.nextToken());
+      int e2 = Integer.parseInt(st.nextToken());
+      graph[e1].add(e2);
+    }
+
+    BFS(start);
 
     boolean check = false;
-
-    D = new int[N+1];
-    queue = new LinkedList<>();
-    visited = new boolean[N+1];
-    graph = new ArrayList[N+1];
-    for (int i=1 ;i<=N ; i++){
-      graph[i] = new ArrayList<>();
-    }
-
-    for (int i=1; i<=M; i++){
-      st = new StringTokenizer(br.readLine());
-      int start = Integer.parseInt(st.nextToken());
-      int end  = Integer.parseInt(st.nextToken());
-      graph[start].add(end);
-    }
-
-    BFS(X);
-
-    for (int i=1; i<=N; i++){
-      if(D[i]==K){
-        check = true;
+    for(int i=1; i<=V; i++){
+      if(D[i]==K) {
         System.out.println(i);
+        check = true;
       }
     }
-
     if(!check) System.out.println(-1);
   }
+  public static void BFS(int s){
+    Queue<Integer> queue = new ArrayDeque<>();
+    queue.offer(s);
+    visited[s] = true;
 
-  public static void BFS(int start){
-    queue.add(start);
-    visited[start] = true;
-
-    while (!queue.isEmpty()){
-      int current = queue.poll();
-      for (int i : graph[current]){
-        if (visited[i] == false){
+    while(!queue.isEmpty()){
+      int curNode = queue.poll();
+      for(int i : graph[curNode]){
+        if(!visited[i]){
+          D[i] = D[curNode]+1;
           visited[i] = true;
-          D[i] = D[current] + 1;
-          queue.add(i);
+          queue.offer(i);
         }
       }
     }
-
   }
 }
