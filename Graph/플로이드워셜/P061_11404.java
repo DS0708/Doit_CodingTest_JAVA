@@ -1,53 +1,43 @@
 package Graph.플로이드워셜;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class P061_11404 {
-  static int Max = Integer.MAX_VALUE;
   public static void main(String[] args) throws Exception{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     StringTokenizer st ;
-    int n = Integer.parseInt(br.readLine());
-    int m = Integer.parseInt(br.readLine());
+    int V = Integer.parseInt(br.readLine());
+    int E = Integer.parseInt(br.readLine());
 
-    long[][] graph = new long[n+1][n+1];
-    // graph에서 자기 자신한테 오는 값들은 0, 그 이외에는 최대범위 수로 초기
-    for(int i=1; i<=n ; i++){
-      for(int j=1; j<=n; j++){
-        if (i==j) graph[i][j] = 0;
-        else graph[i][j] = Max;
-      }
+    int[][] graph = new int[V+1][V+1];
+    for(int i=1; i<=V; i++) {
+      Arrays.fill(graph[i],Integer.MAX_VALUE/3); //두 값을 더하는 로직이 존재하므로 Overflow에 주의해야 한다.
+      graph[i][i] = 0;
     }
-    // graph input
-    for(int i=0; i<m; i++){
+
+    for(int i=0; i<E; i++){
       st = new StringTokenizer(br.readLine());
       int s = Integer.parseInt(st.nextToken());
       int e = Integer.parseInt(st.nextToken());
       int v = Integer.parseInt(st.nextToken());
-      graph[s][e]  = Math.min(graph[s][e],v); //최소값을 저장해야 함에 주의 할 것
+      graph[s][e] = Math.min(graph[s][e],v);
     }
 
-    //Floyd-Warshall
-    for(int k=1; k<=n; k++){
-      for(int i=1; i<=n; i++){
-        for(int j=1; j<=n; j++){
+    //플로이드 워셜 알고리즘
+    //for문이 거쳐 가는 지점부터 시작되어야 하는 이유를 이해해야할 필요가 있음
+    for(int k=1; k<=V; k++)
+      for(int i=1; i<=V; i++)
+        for(int j=1; j<=V; j++)
           graph[i][j] = Math.min(graph[i][j], graph[i][k] + graph[k][j]);
-        }
-      }
-    }
 
-    //output
-    for(int i=1; i<=n ; i++){
-      for(int j=1; j<=n; j++){
-        if(graph[i][j] == Max) bw.write("0 ");
+    for(int i=1; i<=V; i++){
+      for(int j=1; j<=V; j++){
+        if(graph[i][j] == Integer.MAX_VALUE/3) bw.write(0+" ");
         else bw.write(graph[i][j]+" ");
       }
-      bw.write('\n');
+      bw.write("\n");
     }
 
     bw.flush();
