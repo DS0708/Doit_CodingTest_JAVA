@@ -1,76 +1,72 @@
 package Graph.벨만포드;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-class Edge_11657{
-  int s;
-  int e;
-  int v;
-  Edge_11657(int s, int e, int v){
-    this.s = s;
-    this.e = e;
-    this.v = v;
-  }
-}
 
 public class P059_11657 {
-  static ArrayList<Edge_11657> graph;
-  static long[] dist;
+  static class Edge11657{
+    int start;
+    int end;
+    int val;
+    Edge11657(int start,int end, int val){
+      this.start = start;
+      this.end = end;
+      this.val = val;
+    }
+
+  }
+  static Edge11657[] Edges;
+  static long[] D; //거리는 항상 long으로 선언하자 ..! 혹시 모르니..!
   public static void main(String[] args) throws Exception{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
-    int n = Integer.parseInt(st.nextToken());
-    int m = Integer.parseInt(st.nextToken());
-    graph = new ArrayList<>();
-    dist = new long[n+1];
-    int start = 1;
-    Arrays.fill(dist,Integer.MAX_VALUE);
+    int V = Integer.parseInt(st.nextToken());
+    int E = Integer.parseInt(st.nextToken());
+    Edges = new Edge11657[E];
+    D = new long[V+1];
+    Arrays.fill(D,Integer.MAX_VALUE);
+    D[1] = 0; //1일떄 예외처리를 해줘야 한다...
 
-    for(int i=0; i<m; i++){
+    for(int i=0; i<E; i++){
       st = new StringTokenizer(br.readLine());
       int s = Integer.parseInt(st.nextToken());
       int e = Integer.parseInt(st.nextToken());
       int v = Integer.parseInt(st.nextToken());
-      graph.add(new Edge_11657(s,e,v));
+      Edges[i] = new Edge11657(s,e,v);
     }
-
-    //결과 출력
-    boolean check = BellmanFord(n,m,start);
-    if(check){
-      for(int i=2; i<=n; i++){
-        if(dist[i]!=Integer.MAX_VALUE)  System.out.println(dist[i]);
-        else System.out.println(-1);
-      }
-    }else{
-      System.out.println(-1);
-    }
-  }
-
-  public static boolean BellmanFord(int n, int m, int start){
-    dist[start] = 0;
-    boolean check = true;
-
-    for(int i=0; i<n; i++){
-      for(int j=0; j<m; j++){
-        Edge_11657 now = graph.get(j);
-        if(dist[now.s] != Integer.MAX_VALUE && dist[now.e] > dist[now.s] + now.v)
-          dist[now.e] = dist[now.s] + now.v;
+    //벨만-포드 알고리즘
+    for(int i=0; i<V-1; i++){
+      for(int j=0; j<E; j++){
+        int s = Edges[j].start;
+        int e = Edges[j].end;
+        int v = Edges[j].val;
+        if(D[s] != Integer.MAX_VALUE && D[e] > D[s] + v){
+          D[e] = D[s] + v;
+        }
       }
     }
-
-    for(int i=0; i<m; i++){
-      Edge_11657 now = graph.get(i);
-      if(dist[now.s] != Integer.MAX_VALUE && dist[now.e] > dist[now.s] + now.v){
-        check =false;
+    //음수 싸이클 확인하기
+    boolean check = false;
+    for(int j=0; j<E; j++){
+      int s = Edges[j].start;
+      int e = Edges[j].end;
+      int v = Edges[j].val;
+      if(D[s] != Integer.MAX_VALUE && D[e] > D[s] + v){
+        check = true;
         break;
       }
     }
 
-    return check;
+    if(check){
+      System.out.println(-1);
+    }else{
+      for(int i=1; i<=V; i++) { //index가 2부터 시작할 때는 항상 주의할 것 !!!!
+        if(i==1) continue;
+        if(D[i] != Integer.MAX_VALUE) System.out.println(D[i]);
+        else System.out.println(-1);
+      }
+    }
   }
 
 }
