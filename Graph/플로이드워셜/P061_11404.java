@@ -12,7 +12,8 @@ public class P061_11404{
     int M = Integer.parseInt(br.readLine());
 
     long[][] distance = new long[N+1][N+1];
-    long maxDis = 100000001; //비용의 최대값이 100,000이고 이것이 최대 N번 더해질 수 있으니, 최댓값은 100,000 * 100 이다.
+    long maxDis = 100000001;
+    //비용의 최대값이 100,000이고 이것이 최대 N번 더해질 수 있으니, 최댓값은 100,000 * 100 이다.
     for(int i=1 ; i<=N; i++){
       for(int j=1; j<=N; j++){
         if(i==j) continue;
