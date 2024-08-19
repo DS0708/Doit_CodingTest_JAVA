@@ -53,7 +53,7 @@
   2. pivot를 기준으로 다음 a~e 과정을 거쳐 데이터를 2개의 집합으로 분리
      - a. start < pivot 이면 start를 오른쪽으로 한칸이동
      - b. end > pivot 이면 end 를 왼쪽으로 한칸이동
-     - c. start < pivot 이고 end < pivot 이면 start와 end를 스왑하고 start는 오른쪽 end는 왼쪽으로 한칸 이동
+     - c. start > pivot 이고 end < pivot 이면 start와 end를 스왑하고 start는 오른쪽 end는 왼쪽으로 한칸 이동
      - d. a~c를 start와 end가 만날때까지 수행
      - e. start와 end 가 만나면 만나는 지점에서 pivot이랑 비교해 pivot보다 작으면 왼쪽 크면 오른쪽으로 이동
   3. 분리 집합에서 다시 pivot 선정

@@ -16,40 +16,38 @@ public class P019_11004 {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        quickSelect(1,N,K);
+        QuickSort(1,N);
         System.out.println(arr[K]);
+
     }
 
-    static void quickSelect(int start, int end, int K){
+    static void QuickSort(int start, int end){
         if(start < end){
-            int partitionIndex = partition(start, end);
+            int partitionIndex = partition(start,end);
 
-            if(partitionIndex==K) {
-                return;
-            }
-            else if(partitionIndex > K){
-                //K가 partitionIndex보다 왼쪽에 있을 때
-                quickSelect(start,partitionIndex-1,K);
-            }else{
-                //K가 partitionIndex보다 오른쪽에 있을 때
-                quickSelect(partitionIndex+1,end,K);
-            }
+            QuickSort(start,partitionIndex-1);
+            QuickSort(partitionIndex+1, end);
         }
     }
 
     static int partition(int start, int end){
-        int pivot = arr[end]; //pivot은 맨 끝 숫자로 지정
-        int i = start-1;    //i 인덱스까지는 모두 pivot보다 작은 수 임을 보장
-        for(int j=start ; j<=end-1 ; j++){
-            if(arr[j] < pivot){     //pivot보다 작은 수가 나왔다면 i 인덱스를 하나 올리고, 그 수와 변경
+        int mid = start+end/2;
+        swap(mid,end);
+        int pivot = arr[end];
+        int i = start-1;
+
+        for(int j=start; j<=end-1; j++){
+            if(arr[j] < pivot){
                 i++;
                 swap(i,j);
             }
         }
-        //i까지 인덱스는 pivot보다 작음이 보장되므로, i+1번째 자리가 pivot의 자리가 된다.
+
         swap(i+1,end);
         return i+1;
     }
+
+
 
     static void swap(int i, int j) {
         int temp = arr[i];
