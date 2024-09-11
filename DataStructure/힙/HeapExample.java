@@ -2,6 +2,7 @@ package DataStructure.힙;
 
 import java.util.Random;
 
+//Min Heap
 public class HeapExample {
     public static void main(String[] args) {
         Random random = new Random();
