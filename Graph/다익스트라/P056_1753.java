@@ -25,7 +25,6 @@ public class P056_1753 {
 
     DP = new int[V+1];
     Arrays.fill(DP,max);
-    DP[K] = 0;
 
     for(int i=1; i<=E; i++){
       st = new StringTokenizer(br.readLine());
@@ -51,6 +50,7 @@ public class P056_1753 {
   static void dijkstra(int start) {
     PriorityQueue<Edge1753> pq = new PriorityQueue<>((o1,o2)->o1.weight-o2.weight);
     pq.add(new Edge1753(start,0));
+    DP[start] = 0; //출발점 0로직을 여기에 포함해야한다.
 
     while(!pq.isEmpty()){
       Edge1753 cur = pq.poll();
